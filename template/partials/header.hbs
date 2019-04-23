@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--Bootstrap css -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css">
+    <title>Promedio de Estudiantes</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div class="container">
+    <!-- Content here -->
+        <header>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <title>Universidad</title>
+            <h1> Pagina de Universidad </h1>
+        </header>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link active" href="/">Inicio</a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link" href="/guardar-usuario">Crear Usuario</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/index-chat">Chat</a>
+            </li>
+        {{#if sesion}}
+            <li class="nav-item">
+                <a class="nav-link" href="/ver-cursos">Ver Cursos</a>
+            </li>
+            {{#if rolAspirante}}
+            <li class="nav-item">
+                <a class="nav-link" href="/inscribir">Inscribir</a>
+            </li>
+            {{else}}
+            <li class="nav-item">
+                <a class="nav-link" href="/crear-curso">Crear Curso</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/ver-inscritos">Ver Inscritos</a>
+            </li>
+            {{/if}}
+            <form class="form-inline my-2 my-lg-0" action="/salir" method="get">
+                <h3 style="margin-right: 47px;">{{nombre}}</h3>             
+                <button class="btn btn-danger my-2 my-sm-0" type="submit">Salir</button>
+            </form>  
+        {{else}} 
+            <form class="form-inline my-2 my-lg-0" action="/ingresar" method="post">
+            <input class="form-control mr-sm-2" type="number" name="documento" placeholder="Documento de usuario" >  
+            <input class="form-control mr-sm-2" type="password" name="password" placeholder="Contraseña" >                 
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Ingresar</button>
+            </form> 
+        {{/if}}
+         </ul>
+    </div>

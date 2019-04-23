@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{{>header}}
+    <div class="container">
+        <h4>Formulario para crear un curso</h4>
+        <form action="/guardar-curso" method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputIdCurso">Id</label>
+                    <input name="id" type="number" class="form-control" id="inputIdCurso" placeholder="Id del curso" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputNombreCurso">Nombre</label>
+                    <input name="nombre" type="text" class="form-control" id="inputNombreCurso" placeholder="Nombre del Curso" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputModalidadCurso">Modalidad</label>
+                    <select name="modalidad" id="inputModalidadCurso" class="form-control">
+                        <option selected>- Seleccionar -</option>
+                        <option>Virtual</option>
+                        <option>Presencial</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputValorCurso">Valor</label>
+                    <input name="valor" type="number" class="form-control" id="inputValorCurso" placeholder="Valor del Curso" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputDescripcionCurso">Descripción</label>
+                    <textarea name="descripcion" class="form-control" id="inputDescripcionCurso" rows="3" required></textarea>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputIntensidadCurso">Intensidad Horaria</label>
+                    <input name="intensidad" type="number" class="form-control" id="inputIntensidadCurso" placeholder="Intensidad del Curso">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+{{>footer}}

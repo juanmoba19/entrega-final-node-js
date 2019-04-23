@@ -1,0 +1,5 @@
+-- Instalar dependencias --
+npm install
+
+-- Correr Proyecto --
+node src/app

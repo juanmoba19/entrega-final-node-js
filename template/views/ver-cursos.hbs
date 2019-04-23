@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{{>header}}
+    {{#if rolAspirante}}
+    <div class="container">
+        <h4>
+            Ver cursos como interesado
+        </h4>
+        {{{verCursoInteresado listado}}}
+    </div>
+    {{else}}
+    <div class="container">
+        <h4>
+            Ver cursos como administrador
+        </h4>
+        {{{listarCursos listado}}}
+    </div>
+    {{/if}}
+{{>footer}}
