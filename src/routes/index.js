@@ -10,6 +10,9 @@ const Inscripcion = require('../models/inscripcion');
 const Usuario = require('../models/usuario');
 const sgMail = require('@sendgrid/mail');
 const multer  = require('multer');
+const pdf = require('html-pdf');
+const fs = require('fs');
+const pdf2base64 = require('pdf-to-base64');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 require('./../helpers/helpers')
@@ -250,6 +253,7 @@ app.post('/ingresar', (req, res) => {
         req.session.usuario = resultados._id;
         req.session.nombre = resultados.nombre;
         req.session.rolAspirante = resultados.tipo == 'aspirante' ? true : false;
+        req.session.email = resultados.email;
         avatar = resultados.avatar.toString('base64');
         
         res.render('ingresar', {
@@ -275,6 +279,70 @@ app.get('/index-chat', (req, res) => {
 
 app.get('/chat', (req, res) => {
     res.render('chat');
+});
+
+app.post('/pdf-cursos', (req, res) => {
+    console.log("Entro a generar pdf" + JSON.stringify(req.body));
+    let cont = Number(req.body.cont);
+    var contenido = `
+        <h1>Lista de Cursos</h1>
+         <table class="table table-striped"> \
+                <thead> \
+                <tr> \
+                <th scope="col"> Id </th> \
+                <th scope="col"> Nombre </th> \
+                <th scope="col"> Descripción </th> \
+                <th scope="col"> Valor </th> \
+                <th scope="col"> Modalidad </th> \
+                <th scope="col"> Intensidad </th> \
+                <th scope="col"> Estado </th> \
+                </tr> \
+                </thead> \
+                <tbody>';`;
+    for(var i= 0; i < cont; i++) {
+        contenido = contenido + '<tr> \
+            <th scope="row">'  +  req.body['id['+i+']'] + '</th> \
+            <td>' +  req.body['nombre['+i+']'] + '</td> \
+            <td>' +  req.body['descripcion['+i+']'] + '</td> \
+            <td>' +  req.body['valor['+i+']'] + '</td> \
+            <td>' +  req.body['modalidad['+i+']'] + '</td> \
+            <td>' +  req.body['intensidad['+i+']'] + '</td> \
+            <td>' +  req.body['estado['+i+']'] + '</td>';
+    }
+    contenido = contenido + `</tbody></table></div>`;
+
+    pdf.create(contenido).toFile('./lista-cursos.pdf', function(err, res) {
+        if (err){
+            console.log(err);
+        } else {
+
+            pdf2base64(res.filename).then(
+                (response) => {
+                    let attachment = {
+                        content: response,
+                        filename: 'lista-cursos.pdf'
+                    }
+                    const msg = {
+                        to: req.session.email,
+                        from: 'juan.moba19@gmail.com',
+                        subject: 'Reporte PDF Universidad',
+                        text: 'Se envia el reporte de los cursos disponibles ',
+                        attachments: [attachment]
+                    };
+                    console.log("Envio correo");
+                    sgMail.send(msg);
+                }
+            ).catch(
+                (error) => {
+                    console.log(error);
+                }
+            )
+        }
+    });
+
+    res.render ('indexpost', {			
+        mostrar : 'Se ha creado el pdf satisfactoriamente '
+    });
 });
 
 module.exports = app

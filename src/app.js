@@ -33,18 +33,6 @@ io.on('connection', client => {
 
 	console.log("un usuario se ha conectado");
 
-	// client.emit("mensaje", "Bienvenido a mi página")
-
-	// client.on("mensaje", (informacion) =>{
-	// console.log(informacion)
-	// })
-
-	// client.on("contador", () =>{
-	// 	contador ++
-	// 	console.log(contador)
-	// 	io.emit("contador", contador )
-	// })
-
 	client.on('usuarioNuevo', (usuario) =>{
 		let listado = usuarios.agregarUsuario(client.id, usuario)
 		console.log(listado)
@@ -92,6 +80,7 @@ app.use((req, res, next) =>{
 		res.locals.sesion = true
 		res.locals.nombre = req.session.nombre
 		res.locals.rolAspirante = req.session.rolAspirante
+		res.locals.email = req.session.email
 	}	
 	next()
 });

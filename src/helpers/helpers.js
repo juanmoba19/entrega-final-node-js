@@ -94,8 +94,8 @@ hbs.registerHelper('verInscritosCursos', (listaCursos, listaCursosEstudiante) =>
 });
 
 hbs.registerHelper('listarCursos', (listaCursos) => {
-
-    let texto = '<table class="table table-striped"> \
+    let cont = 0;
+    let texto = '<form action="/pdf-cursos"  method="POST"> <table class="table table-striped"> \
                 <thead> \
                 <tr> \
                 <th scope="col"> Id </th> \
@@ -111,15 +111,25 @@ hbs.registerHelper('listarCursos', (listaCursos) => {
     listaCursos.forEach(curso => {
         texto = texto +
             '<tr>' +
-            '<th scope="row">' + curso.id + '</th>' +
-            '<td>' + curso.nombre + '</td>' +
-            '<td>' + curso.descripcion + '</td>' +
-            '<td>' + curso.valor + '</td>' +
-            '<td>' + curso.modalidad + '</td>' +
-            '<td>' + curso.intensidad + '</td>' +
-            '<td>' + curso.estado + '</td></tr>';
+            '<th scope="row">' + curso.id +
+            '<input type="hidden" name="id[' + cont + ']" value="' + curso.id + '" /></th>' +
+            '<td>' + curso.nombre + 
+            '<input type="hidden" name="nombre[' + cont + ']" value="' + curso.nombre + '" /></td>' +
+            '<td>' + curso.descripcion + 
+            '<input type="hidden" name="descripcion[' + cont + ']" value="' + curso.descripcion + '" /></td>' +
+            '<td>' + curso.valor +
+            '<input type="hidden" name="valor[' + cont + ']" value="' + curso.valor + '" /></td>' +
+            '<td>' + curso.modalidad +
+            '<input type="hidden" name="modalidad[' + cont + ']" value="' + curso.modalidad + '" /></td>' +
+            '<td>' + curso.intensidad + 
+            '<input type="hidden" name="intensidad[' + cont + ']" value="' + curso.intensidad + '" /></td>' +
+            '<td>' + curso.estado + 
+            '<input type="hidden" name="estado[' + cont + ']" value="' + curso.estado + '" /></td></tr>';
+            cont ++;
     });
-    texto = texto + '</tbody></table>'
+    texto = texto + '<input type="hidden" name="cont" value="' + cont + '" /></tbody></table>  \
+    <button type="submit" class="btn btn-info">Generar PDF</button> \
+    </form></div>';
     return texto;
 });
 
