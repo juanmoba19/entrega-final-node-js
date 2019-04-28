@@ -1,6 +1,6 @@
 process.env.PORT = process.env.PORT || 3000;
 process.env.NODE_ENV = process.env.NODE_ENV || 'local';
-process.env.SENDGRID_API_KEY = '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';
+process.env.SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 
 let urlDB
 if (process.env.NODE_ENV === 'local'){
